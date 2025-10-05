@@ -1,24 +1,32 @@
-import re
-
 def check_password_strength(password):
-    
+    has_upper = False
+    has_lower = False
+    has_digit = False
+    has_special = False
+    special_chars = "!@#$%^&*(),.?\":{}|<>"
+
     if len(password) < 8:
         return False
-    if not re.search(r"[A-Z]", password):
-        return False
-    if not re.search(r"[a-z]", password):
-        return False
-    if not re.search(r"\d", password):
-        return False
-    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        return False
-    return True
 
+    for char in password:
+        if char.isupper():
+            has_upper = True
+        elif char.islower():
+            has_lower = True
+        elif char.isdigit():
+            has_digit = True
+        elif char in special_chars:
+            has_special = True
 
-# --- Main program ---
-if __name__ == "__main__":
-    pwd = input("Enter your password: ")
-    if check_password_strength(pwd):
-        print("✅ Strong password! It meets all security requirements.")
+    if has_upper and has_lower and has_digit and has_special:
+        return True
     else:
-        print("❌ Weak password. Try using a mix of uppercase, lowercase, digits, and special characters.")
+        return False
+
+
+password = input("Enter your password: ")
+
+if check_password_strength(password):
+    print("✅ Strong password! It meets all security requirements.")
+else:
+    print("❌ Weak password. Try using uppercase, lowercase, numbers, and special characters.")
